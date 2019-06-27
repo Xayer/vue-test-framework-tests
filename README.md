@@ -30,5 +30,10 @@ yarn run lint
 yarn run test:unit
 ```
 
+### Run your unit tests (with watcher)
+```
+yarn run test:unit:watch
+```
+
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
