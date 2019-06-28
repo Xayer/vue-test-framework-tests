@@ -39,7 +39,8 @@ export default class UserDetail extends Vue {
 
         // computed variable based on user's email
         get email() {
-          const user = this.hasOwnProperty('profile') && this.profile.hasOwnProperty('user') ? this.profile.user : null;
+
+          const user = this.profile && this.profile.hasOwnProperty('user') ? this.profile.user : null;
           return user && user.hasOwnProperty('email') ? user.email : null;
         }
 
