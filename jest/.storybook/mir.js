@@ -3,15 +3,10 @@ import mirLogo from '../.storybook/assets/img/logo.png';
 
 export default create({
   base: 'light',
-
-  colorPrimary: '#ddd',
   colorSecondary: '#0d88cb',
 
   // UI
-  appBg: 'white',
-  appContentBg: 'white',
-  appBorderColor: '#ddd',
-  appBorderRadius: 4,
+  appBg: 'rgb(117, 172, 216)',
 
   // Typography
   fontBase: '"Open Sans", sans-serif',
@@ -24,15 +19,10 @@ export default create({
   // Toolbar default and active colors
   barTextColor: 'white',
   barHoverTextColor: 'white',
-  barSelectedColor: '#ddd',
+  barSelectedColor: 'white',
   barBg: '#0d88cb',
 
-  // Form colors
-  inputBg: 'white',
-  inputBorder: 'silver',
-  inputTextColor: 'black',
-  inputBorderRadius: 4,
-
+  
   brandTitle: 'Mobile Industrial Robots',
   brandUrl: 'https://www.mobile-industrial-robots.com',
   brandImage: mirLogo,
