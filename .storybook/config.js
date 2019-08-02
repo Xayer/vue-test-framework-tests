@@ -1,18 +1,38 @@
-import { configure } from '@storybook/vue';
-import { addParameters } from '@storybook/vue';
-import Mir from './mir'
+/* eslint-disable import/no-extraneous-dependencies */
+import { configure, addDecorator, addParameters } from '@storybook/vue';
+import StoryRouter from 'storybook-vue-router';
+import { withInfo, setDefaults } from 'storybook-addon-vue-info';
+import Vue from 'vue';
+import Vuex from 'vuex';
 
-// automatically import all files ending in *.stories.js
-const req = require.context('../stories', true, /\.stories\.js$/);
+Vue.use(Vuex);
+
+addParameters({
+	options: {
+		hierarchyRootSeparator: / - /,
+	},
+});
+
+// Require all the .stories.js files from all components
+const req = require.context('../stories', true, /\.js$/);
+
 function loadStories() {
-  req.keys().forEach(filename => req(filename));
+	req.keys().forEach((filePath) => {
+    const componentName = filePath.replace(/^.+\/([^/]+)\.js/, '$1');
+		const component = req(filePath);
+		Vue.component(componentName, component);
+		return component;
+	});
 }
 
-// Option defaults.
-addParameters({
-  options: {
-    theme: Mir,
-  },
+setDefaults({
+	header: false,
+	source: false,
+	docsInPanel: false
 });
+
+addDecorator(withInfo);
+
+addDecorator(StoryRouter());
 
 configure(loadStories, module);

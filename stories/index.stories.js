@@ -1,33 +1,43 @@
-/* eslint-disable react/react-in-jsx-scope */
-
+import Vue from 'vue';
 import { storiesOf } from '@storybook/vue';
+import { withKnobs, text, color, boolean, radios } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
-import { linkTo } from '@storybook/addon-links';
+import MyButton from '../src/components/MyButton';
+import { Action } from 'vuex-class';
 
-import MyButton from './MyButton';
-import Welcome from './Welcome';
+const namespace = 'Atoms/Buttons';
 
-storiesOf('Welcome', module).add('to Storybook', () => ({
-  components: { Welcome },
-  template: '<welcome :showApp="action" />',
-  methods: { action: linkTo('Button') },
-}));
-
-storiesOf('Button', module)
-  .add('with text', () => ({
-    components: { MyButton },
-    template: '<my-button @click="action">Hello Button</my-button>',
-    methods: { action: action('clicked') },
-  }))
-  .add('with JSX', () => ({
-    components: { MyButton },
-    render(h) {
-      return <my-button onClick={this.action}>With JSX</my-button>;
+const buttonStories = storiesOf(namespace, module);
+buttonStories.addDecorator(withKnobs);
+buttonStories.add('Styles', () => ({
+  components: { MyButton },
+  props: {
+		isDisabled: {
+			default: boolean('Disabled', false),
     },
-    methods: { action: linkTo('clicked') },
-  }))
-  .add('with some emoji', () => ({
-    components: { MyButton },
-    template: '<my-button @click="action">😀 😎 👍 💯</my-button>',
-    methods: { action: action('clicked') },
-  }));
+    buttonLabel: {
+			default: text('Label', 'Hello!'),
+    },
+    buttonColor: {
+			default: color('Button Background color', '#000'),
+    },
+    textAlignment: {
+			default: radios('text align', ['left', 'center', 'right'],'left'),
+		},
+  },
+  methods: {
+    focus(event) {
+      action('focus')(event);
+    },
+    click(event) {
+      action('click')(event);
+    },
+  },
+  template: `<MyButton @focus="focus($event)"
+              @click="click($event)"
+              :disabled="isDisabled"
+              :style="{backgroundColor: buttonColor, textAlign: textAlignment}"
+              :buttonText="buttonLabel"></MyButton>`,
+}), {
+  info: true
+})
